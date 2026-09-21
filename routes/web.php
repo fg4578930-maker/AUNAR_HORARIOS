@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DocenteController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,11 +18,14 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Rutas de perfil para usuarios autenticados
+// Rutas de perfil y consulta general para usuarios autenticados
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // Consulta general de docentes (Disponible para Admin y Usuario regular)
+    Route::get('/docentes', [DocenteController::class, 'index'])->name('docentes.index');
 });
 
 // Rutas exclusivas para el Administrador (Protegidas por 'auth' y el middleware 'admin')
@@ -29,19 +33,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     
     // Gestión de usuarios
-    Route::get('/users', [AdminController::class, 'indexUsers'])->name('users.index'); // <-- NUEVA RUTA
+    Route::get('/users', [AdminController::class, 'indexUsers'])->name('users.index');
     Route::get('/users/create', [AdminController::class, 'create'])->name('users.create');
     Route::post('/users', [AdminController::class, 'store'])->name('users.store');
-
-    // Rutas para la gestión y creación de usuarios
-    Route::get('/users/create', [AdminController::class, 'create'])->name('users.create');
-    Route::post('/users', [AdminController::class, 'store'])->name('users.store');
-
-    // NUEVAS RUTAS PARA EDITAR Y ELIMINAR
     Route::get('/users/{user}/edit', [AdminController::class, 'edit'])->name('users.edit');
     Route::put('/users/{user}', [AdminController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('users.destroy');
-    
+
+    // Gestión de docentes (CRUD exclusivo del Administrador)
+    Route::get('/docentes/crear', [DocenteController::class, 'create'])->name('docentes.create');
+    Route::post('/docentes', [DocenteController::class, 'store'])->name('docentes.store');
+    Route::get('/docentes/{docente}/editar', [DocenteController::class, 'edit'])->name('docentes.edit');
+    Route::put('/docentes/{docente}', [DocenteController::class, 'update'])->name('docentes.update');
+    Route::delete('/docentes/{docente}', [DocenteController::class, 'destroy'])->name('docentes.destroy');
 });
 
 require __DIR__.'/auth.php';
