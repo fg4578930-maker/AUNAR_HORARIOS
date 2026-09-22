@@ -13,11 +13,13 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Administrador General',
-            'email' => 'admin@admin.com',
-            'role' => 'admin', // <-- Asignamos el rol de administrador
-            'password' => Hash::make('12345678'), // Contraseña segura por defecto
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@admin.com'], // Criterio de búsqueda
+            [
+                'name' => 'Administrador General',
+                'role' => 'admin', // Asignamos el rol de administrador
+                'password' => Hash::make('12345678'), // Contraseña por defecto
+            ]
+        );
     }
 }
