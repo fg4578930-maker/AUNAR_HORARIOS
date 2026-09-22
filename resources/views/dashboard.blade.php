@@ -29,7 +29,7 @@
                     </div>
                     <h1 class="text-3xl font-extrabold text-[#0b2545] tracking-tight">Bienvenido, {{ Auth::user()->name }}</h1>
                     <p class="text-slate-500 text-sm mt-2 leading-relaxed">
-                        Sistema institucional de consulta académica. Accede al directorio docente, calendario, oferta de programas y catálogo de asignaturas disponible para tu rol en la plataforma.
+                        Sistema institucional de consulta académica. Accede al directorio docente, calendario, oferta de programas, asignaturas y planes de estudio disponible para tu rol en la plataforma.
                     </p>
                     
                     <div class="flex flex-wrap items-center gap-3 mt-6">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                     
                     <!-- Módulo 1: Docentes -->
                     <div class="interactive-module bg-white rounded-3xl shadow-lg p-6 border border-gray-100 flex flex-col justify-between transition transform hover:-translate-y-1 hover:shadow-xl">
@@ -129,6 +129,23 @@
                         </div>
                         <div class="pt-6 mt-4 border-t border-gray-100 flex items-center justify-between">
                             <a href="{{ route('asignaturas.index') }}" class="bg-[#0b2545] hover:bg-slate-800 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition">Ver Asignaturas</a>
+                        </div>
+                    </div>
+
+                    <!-- Módulo 5: Planes de Estudio (NUEVO) -->
+                    <div class="interactive-module bg-white rounded-3xl shadow-lg p-6 border border-gray-100 flex flex-col justify-between transition transform hover:-translate-y-1 hover:shadow-xl">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-indigo-50 text-indigo-800 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider border border-indigo-100">Curricular</span>
+                                <span class="text-2xl font-extrabold text-[#0b2545]">{{ \App\Models\PlanEstudio::count() }}</span>
+                            </div>
+                            <h4 class="text-base font-extrabold text-slate-900">Planes de Estudio</h4>
+                            <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                                Consulta mallas curriculares y asignaturas por semestre.
+                            </p>
+                        </div>
+                        <div class="pt-6 mt-4 border-t border-gray-100 flex items-center justify-between">
+                            <a href="{{ route('planes.index') }}" class="bg-[#0b2545] hover:bg-slate-800 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition">Ver Planes</a>
                         </div>
                     </div>
 
