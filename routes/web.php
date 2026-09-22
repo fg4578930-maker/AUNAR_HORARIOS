@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\PeriodoAcademicoController;
 use App\Http\Controllers\ProgramaAcademicoController;
+use App\Http\Controllers\AsignaturaController;
 
 // Redirige la raíz al login en lugar de mostrar la vista "welcome" de Laravel
 Route::get('/', function () {
@@ -28,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/periodos', [PeriodoAcademicoController::class, 'index'])->name('periodos.index');
     Route::get('/programas', [ProgramaAcademicoController::class, 'index'])->name('programas.index');
+    Route::get('/asignaturas', [AsignaturaController::class, 'index'])->name('asignaturas.index');
     
     
     // Consulta general de docentes (Disponible para Admin y Usuario regular)
@@ -47,6 +49,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/programas/{programa}/editar', [ProgramaAcademicoController::class, 'edit'])->name('programas.edit');
     Route::put('/programas/{programa}', [ProgramaAcademicoController::class, 'update'])->name('programas.update');
     Route::delete('/programas/{programa}', [ProgramaAcademicoController::class, 'destroy'])->name('programas.destroy');
+    Route::get('/asignaturas/crear', [AsignaturaController::class, 'create'])->name('asignaturas.create');
+    Route::post('/asignaturas', [AsignaturaController::class, 'store'])->name('asignaturas.store');
+    Route::get('/asignaturas/{asignatura}/editar', [AsignaturaController::class, 'edit'])->name('asignaturas.edit');
+    Route::put('/asignaturas/{asignatura}', [AsignaturaController::class, 'update'])->name('asignaturas.update');
+    Route::delete('/asignaturas/{asignatura}', [AsignaturaController::class, 'destroy'])->name('asignaturas.destroy');
     
     // Gestión de usuarios
     Route::get('/users', [AdminController::class, 'indexUsers'])->name('users.index');
