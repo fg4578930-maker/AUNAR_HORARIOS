@@ -29,7 +29,7 @@
                     </div>
                     <h1 class="text-3xl font-extrabold text-[#0b2545] tracking-tight">Bienvenido, {{ Auth::user()->name }}</h1>
                     <p class="text-slate-500 text-sm mt-2 leading-relaxed">
-                        Sistema institucional de consulta académica. Accede al directorio docente, calendario, oferta de programas, asignaturas y planes de estudio disponible para tu rol en la plataforma.
+                        Sistema institucional de consulta académica. Accede al directorio docente, calendario, oferta de programas, asignaturas, planes de estudio y espacios físicos disponible para tu rol en la plataforma.
                     </p>
                     
                     <div class="flex flex-wrap items-center gap-3 mt-6">
@@ -58,11 +58,11 @@
                     </div>
                     <div>
                         <h3 class="text-lg font-extrabold text-[#0b2545]">Módulos de Consulta Académica</h3>
-                        <p class="text-xs text-slate-500">Acceso a directorios, calendarios y oferta institucional</p>
+                        <p class="text-xs text-slate-500">Acceso a directorios, calendarios, oferta institucional e infraestructura</p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
                     
                     <!-- Módulo 1: Docentes -->
                     <div class="interactive-module bg-white rounded-3xl shadow-lg p-6 border border-gray-100 flex flex-col justify-between transition transform hover:-translate-y-1 hover:shadow-xl">
@@ -132,7 +132,7 @@
                         </div>
                     </div>
 
-                    <!-- Módulo 5: Planes de Estudio (NUEVO) -->
+                    <!-- Módulo 5: Planes de Estudio -->
                     <div class="interactive-module bg-white rounded-3xl shadow-lg p-6 border border-gray-100 flex flex-col justify-between transition transform hover:-translate-y-1 hover:shadow-xl">
                         <div>
                             <div class="flex justify-between items-start mb-4">
@@ -146,6 +146,23 @@
                         </div>
                         <div class="pt-6 mt-4 border-t border-gray-100 flex items-center justify-between">
                             <a href="{{ route('planes.index') }}" class="bg-[#0b2545] hover:bg-slate-800 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition">Ver Planes</a>
+                        </div>
+                    </div>
+
+                    <!-- Módulo 6: Aulas y Laboratorios (NUEVO) -->
+                    <div class="interactive-module bg-white rounded-3xl shadow-lg p-6 border border-gray-100 flex flex-col justify-between transition transform hover:-translate-y-1 hover:shadow-xl">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-yellow-50 text-yellow-800 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider border border-yellow-100">Infraestructura</span>
+                                <span class="text-2xl font-extrabold text-[#0b2545]">{{ \App\Models\Aula::count() }}</span>
+                            </div>
+                            <h4 class="text-base font-extrabold text-slate-900">Aulas y Labs</h4>
+                            <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                                Consulta espacios físicos, capacidades y exclusividades.
+                            </p>
+                        </div>
+                        <div class="pt-6 mt-4 border-t border-gray-100 flex items-center justify-between">
+                            <a href="{{ route('aulas.index') }}" class="bg-[#0b2545] hover:bg-slate-800 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition">Ver Aulas</a>
                         </div>
                     </div>
 

@@ -18,11 +18,12 @@ class ProgramaAcademico extends Model
         'estado',
     ];
 
-    // Relación futura con planes de estudio (retorna 0 temporalmente)
-    public function getPlanesEstudioCountAttribute()
+    /**
+     * Relación uno a muchos con los planes de estudio.
+     * Utiliza 'programa_academico_id' como llave foránea y 'id' como llave primaria.
+     */
+    public function planesEstudio()
     {
-        // Cuando creemos el módulo de planes de estudio, se conectará aquí:
-        // return $this->planesEstudio()->count();
-        return 0; 
+        return $this->hasMany(PlanEstudio::class, 'programa_academico_id', 'id');
     }
 }

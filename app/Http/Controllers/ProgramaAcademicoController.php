@@ -9,7 +9,9 @@ class ProgramaAcademicoController extends Controller
 {
     public function index()
     {
-        $programas = ProgramaAcademico::orderBy('nombre')->get();
+        // Conteo dinámico de planes de estudio asociados
+        $programas = ProgramaAcademico::withCount('planesEstudio')->get();
+        
         return view('programas.index', compact('programas'));
     }
 
@@ -23,13 +25,14 @@ class ProgramaAcademicoController extends Controller
         $request->validate([
             'codigo' => 'required|string|max:50|unique:programas_academicos,codigo',
             'nombre' => 'required|string|max:255',
-            'facultad' => 'required|string',
+            'facultad' => 'required|string|max:255',
             'estado' => 'required|string',
         ]);
 
         ProgramaAcademico::create($request->all());
 
-        return redirect()->route('programas.index')->with('success', '¡Programa académico registrado exitosamente!');
+        // CORRECCIÓN: Apuntando a la ruta correcta sin el prefijo 'admin.' (cámbiala si tu ruta usa otro nombre)
+        return redirect()->route('programas.index')->with('success', '¡Programa académico creado exitosamente!');
     }
 
     public function edit(ProgramaAcademico $programa)
@@ -42,7 +45,7 @@ class ProgramaAcademicoController extends Controller
         $request->validate([
             'codigo' => 'required|string|max:50|unique:programas_academicos,codigo,' . $programa->id,
             'nombre' => 'required|string|max:255',
-            'facultad' => 'required|string',
+            'facultad' => 'required|string|max:255',
             'estado' => 'required|string',
         ]);
 
@@ -51,9 +54,10 @@ class ProgramaAcademicoController extends Controller
         return redirect()->route('programas.index')->with('success', '¡Programa académico actualizado exitosamente!');
     }
 
-    public function destroy(ProgramaAcademico $programa)
+    public function destroy(ProgramaAcademico$programa)
     {
         $programa->delete();
+        
         return redirect()->route('programas.index')->with('success', '¡Programa académico eliminado exitosamente!');
     }
 }

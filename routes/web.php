@@ -9,6 +9,7 @@ use App\Http\Controllers\PeriodoAcademicoController;
 use App\Http\Controllers\ProgramaAcademicoController;
 use App\Http\Controllers\AsignaturaController;
 use App\Http\Controllers\PlanEstudioController;
+use App\Http\Controllers\AulaController; // <-- IMPORTACIÓN AÑADIDA PARA AULAS
 
 // Redirige la raíz al login en lugar de mostrar la vista "welcome" de Laravel
 Route::get('/', function () {
@@ -36,6 +37,9 @@ Route::middleware('auth')->group(function () {
     
     // Consulta general de docentes (Disponible para Admin y Usuario regular)
     Route::get('/docentes', [DocenteController::class, 'index'])->name('docentes.index');
+
+    // Consulta general de Aulas y Laboratorios (Disponible para Admin y Usuario regular)
+    Route::get('/aulas', [AulaController::class, 'index'])->name('aulas.index');
 });
 
 // Rutas exclusivas para el Administrador (Protegidas por 'auth' y el middleware 'admin')
@@ -50,6 +54,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/periodos/{periodo}', [PeriodoAcademicoController::class, 'destroy'])->name('periodos.destroy');
     
     // Programas Académicos
+    Route::get('/programas', [ProgramaAcademicoController::class, 'index'])->name('programas.index');
     Route::get('/programas/crear', [ProgramaAcademicoController::class, 'create'])->name('programas.create');
     Route::post('/programas', [ProgramaAcademicoController::class, 'store'])->name('programas.store');
     Route::get('/programas/{programa}/editar', [ProgramaAcademicoController::class, 'edit'])->name('programas.edit');
@@ -88,6 +93,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/docentes/{docente}/editar', [DocenteController::class, 'edit'])->name('docentes.edit');
     Route::put('/docentes/{docente}', [DocenteController::class, 'update'])->name('docentes.update');
     Route::delete('/docentes/{docente}', [DocenteController::class, 'destroy'])->name('docentes.destroy');
+
+    // Gestión de Aulas y Laboratorios (CRUD exclusivo del Administrador)
+    Route::get('/aulas', [AulaController::class, 'index'])->name('aulas.index'); // <-- RUTA AÑADIDA PARA EVITAR EL ERROR
+    Route::get('/aulas/crear', [AulaController::class, 'create'])->name('aulas.create');
+    Route::post('/aulas', [AulaController::class, 'store'])->name('aulas.store');
+    Route::get('/aulas/{aula}/editar', [AulaController::class, 'edit'])->name('aulas.edit');
+    Route::put('/aulas/{aula}', [AulaController::class, 'update'])->name('aulas.update');
+    Route::delete('/aulas/{aula}', [AulaController::class, 'destroy'])->name('aulas.destroy');
 });
 
 require __DIR__.'/auth.php';
