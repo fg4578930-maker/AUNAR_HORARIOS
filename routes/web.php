@@ -5,9 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DocenteController;
+use App\Http\Controllers\PeriodoAcademicoController;
 
+// Redirige la raíz al login en lugar de mostrar la vista "welcome" de Laravel
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 // Ruta del dashboard principal con redirección si es admin
@@ -23,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/periodos', [PeriodoAcademicoController::class, 'index'])->name('periodos.index');
     
     // Consulta general de docentes (Disponible para Admin y Usuario regular)
     Route::get('/docentes', [DocenteController::class, 'index'])->name('docentes.index');
@@ -31,6 +34,11 @@ Route::middleware('auth')->group(function () {
 // Rutas exclusivas para el Administrador (Protegidas por 'auth' y el middleware 'admin')
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/periodos/crear', [PeriodoAcademicoController::class, 'create'])->name('periodos.create');
+    Route::post('/periodos', [PeriodoAcademicoController::class, 'store'])->name('periodos.store');
+    Route::get('/periodos/{periodo}/editar', [PeriodoAcademicoController::class, 'edit'])->name('periodos.edit');
+    Route::put('/periodos/{periodo}', [PeriodoAcademicoController::class, 'update'])->name('periodos.update');
+    Route::delete('/periodos/{periodo}', [PeriodoAcademicoController::class, 'destroy'])->name('periodos.destroy');
     
     // Gestión de usuarios
     Route::get('/users', [AdminController::class, 'indexUsers'])->name('users.index');

@@ -30,7 +30,7 @@
                     <h2 class="text-sm font-semibold text-slate-500">Bienvenido, {{ Auth::user()->name }}</h2>
                     <h1 class="text-3xl font-extrabold text-slate-900 mt-1 tracking-tight">Sistema Institucional de Gestión Académica</h1>
                     <p class="text-slate-600 text-sm mt-3 leading-relaxed">
-                        Panel centralizado para la administración del directorio de docentes, control de accesos de usuarios y supervisión general de la plataforma.
+                        Panel centralizado para la administración del directorio de docentes, periodos académicos, control de accesos y supervisión general de la plataforma.
                     </p>
                     
                     <div class="flex flex-wrap gap-3 mt-6">
@@ -63,22 +63,22 @@
                     </div>
                     <div>
                         <h3 class="text-lg font-bold text-slate-900">Módulos Principales del Sistema</h3>
-                        <p class="text-xs text-slate-500">Gestión de docentes y control de usuarios activos</p>
+                        <p class="text-xs text-slate-500">Gestión de docentes, calendario académico y control de usuarios</p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     
                     <!-- MÓDULO 1: DOCENTES -->
                     <div class="interactive-module bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 flex flex-col justify-between transition transform hover:-translate-y-1 hover:shadow-2xl">
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-4">
-                                <span class="bg-blue-50 text-[#0b2545] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-blue-100">Módulo Académico</span>
+                                <span class="bg-blue-50 text-[#0b2545] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-blue-100">Académico</span>
                                 <span class="text-3xl font-extrabold text-[#0b2545]">{{ $totalDocentes ?? 0 }}</span>
                             </div>
                             <h4 class="text-xl font-bold text-slate-900">Directorio de Docentes</h4>
                             <p class="text-sm text-slate-500 mt-2 leading-relaxed">
-                                Administra el registro, consulta, tipos de vinculación (tiempo completo, medio tiempo, hora cátedra) y datos de contacto de los profesores.
+                                Administra el registro, consulta, tipos de vinculación y datos de contacto de los profesores.
                             </p>
                         </div>
                         <div class="bg-slate-50 px-6 py-4 border-t border-gray-100 flex items-center justify-between">
@@ -86,20 +86,41 @@
                                 <span>Ver Docentes</span>
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
-                            <a href="{{ route('admin.docentes.create') }}" class="text-xs font-bold text-[#0b2545] hover:underline">+ Registrar Nuevo</a>
+                            <a href="{{ route('admin.docentes.create') }}" class="text-xs font-bold text-[#0b2545] hover:underline">+ Registrar</a>
                         </div>
                     </div>
 
-                    <!-- MÓDULO 2: GESTIÓN DE USUARIOS -->
+                    <!-- MÓDULO 2: PERIODOS ACADÉMICOS -->
+                    <div class="interactive-module bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 flex flex-col justify-between transition transform hover:-translate-y-1 hover:shadow-2xl">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-amber-50 text-amber-800 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-amber-100">Calendario</span>
+                                <span class="text-3xl font-extrabold text-[#0b2545]">{{ \App\Models\PeriodoAcademico::count() }}</span>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900">Periodos Académicos</h4>
+                            <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                                Configura semestres, vigencias, fechas de inicio y fin, y el estado del calendario institucional.
+                            </p>
+                        </div>
+                        <div class="bg-slate-50 px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+                            <a href="{{ route('periodos.index') }}" class="inline-flex items-center space-x-2 bg-[#0b2545] hover:bg-slate-800 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition">
+                                <span>Ver Periodos</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
+                            <a href="{{ route('admin.periodos.create') }}" class="text-xs font-bold text-[#0b2545] hover:underline">+ Crear Periodo</a>
+                        </div>
+                    </div>
+
+                    <!-- MÓDULO 3: GESTIÓN DE USUARIOS -->
                     <div class="interactive-module bg-[#0b2545] text-white rounded-2xl shadow-xl overflow-hidden border border-indigo-900 flex flex-col justify-between transition transform hover:-translate-y-1 hover:shadow-2xl">
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-4">
-                                <span class="bg-yellow-400 text-slate-900 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Seguridad y Accesos</span>
-                                <span class="text-3xl font-extrabold text-yellow-400">{{ $totalUsers }}</span>
+                                <span class="bg-yellow-400 text-slate-900 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Seguridad</span>
+                                <span class="text-3xl font-extrabold text-yellow-400">{{ $totalUsers ?? \App\Models\User::count() }}</span>
                             </div>
                             <h4 class="text-xl font-bold text-white">Gestión de Usuarios</h4>
                             <p class="text-sm text-indigo-200 mt-2 leading-relaxed">
-                                Control de permisos, creación y edición de cuentas de administradores y usuarios estándar, y supervisión de accesos a la plataforma.
+                                Control de permisos, cuentas de administradores y usuarios estándar en la plataforma.
                             </p>
                         </div>
                         <div class="bg-indigo-950/50 px-6 py-4 border-t border-indigo-900 flex items-center justify-between">
@@ -115,18 +136,22 @@
             </div>
 
             <!-- TARJETAS DE ESTADÍSTICAS SECUNDARIAS -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
                     <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Administradores</div>
-                    <div class="text-2xl font-extrabold text-slate-800 mt-1">{{ $totalAdmins }}</div>
+                    <div class="text-2xl font-extrabold text-slate-800 mt-1">{{ $totalAdmins ?? \App\Models\User::where('role', 'admin')->count() }}</div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
                     <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Usuarios Estándar</div>
-                    <div class="text-2xl font-extrabold text-slate-800 mt-1">{{ $totalStandardUsers }}</div>
+                    <div class="text-2xl font-extrabold text-slate-800 mt-1">{{ $totalStandardUsers ?? \App\Models\User::where('role', 'user')->count() }}</div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
                     <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Docentes Vinculados</div>
-                    <div class="text-2xl font-extrabold text-slate-800 mt-1">{{ $totalDocentes ?? 0 }}</div>
+                    <div class="text-2xl font-extrabold text-slate-800 mt-1">{{ $totalDocentes ?? \App\Models\Docente::count() }}</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Periodos Académicos</div>
+                    <div class="text-2xl font-extrabold text-slate-800 mt-1">{{ \App\Models\PeriodoAcademico::count() }}</div>
                 </div>
             </div>
 
@@ -135,14 +160,13 @@
 
     <!-- Script para los efectos de sonido y la viñeta interactiva -->
     <script>
-        // Función para reproducir un sutil tono al pasar el mouse por los módulos
         function playHoverSound() {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // Nota D5
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
                 gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
                 osc.connect(gain);
@@ -152,22 +176,19 @@
             } catch(e) {}
         }
 
-        // Agregar evento a los módulos
         document.querySelectorAll('.interactive-module').forEach(module => {
             module.addEventListener('mouseenter', playHoverSound);
         });
 
-        // Interacción con Aunardo (Viñeta y sonido alegre)
         const aunardoContainer = document.getElementById('aunardo-container');
         const aunardoSpeech = document.getElementById('aunardo-speech');
 
         aunardoContainer.addEventListener('click', () => {
             aunardoSpeech.classList.toggle('hidden');
             
-            // Sonido alegre de arpegio al hacer clic en Aunardo
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const notes = [523.25, 659.25, 783.99, 1046.50]; // Acorde de Do mayor
+                const notes = [523.25, 659.25, 783.99, 1046.50];
                 notes.forEach((freq, index) => {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
