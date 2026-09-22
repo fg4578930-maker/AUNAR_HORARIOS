@@ -30,7 +30,7 @@
                     <h2 class="text-sm font-semibold text-slate-500">Bienvenido, {{ Auth::user()->name }}</h2>
                     <h1 class="text-3xl font-extrabold text-slate-900 mt-1 tracking-tight">Sistema Institucional de Gestión Académica</h1>
                     <p class="text-slate-600 text-sm mt-3 leading-relaxed">
-                        Accede al directorio de docentes, consulta el calendario de periodos académicos y revisa la información institucional disponible para tu rol en la plataforma.
+                        Accede al directorio de docentes, consulta el calendario, revisa los programas académicos y la información institucional disponible para tu rol en la plataforma.
                     </p>
                     
                     <div class="flex flex-wrap gap-3 mt-6">
@@ -63,22 +63,22 @@
                     </div>
                     <div>
                         <h3 class="text-lg font-bold text-slate-900">Módulos del Sistema</h3>
-                        <p class="text-xs text-slate-500">Consulta de directorio académico y calendario institucional</p>
+                        <p class="text-xs text-slate-500">Consulta de directorio, calendario y oferta académica institucional</p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     
                     <!-- MÓDULO: DOCENTES -->
                     <div class="interactive-module bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 flex flex-col justify-between transition transform hover:-translate-y-1 hover:shadow-2xl">
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-4">
-                                <span class="bg-blue-50 text-[#0b2545] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-blue-100">Módulo Académico</span>
+                                <span class="bg-blue-50 text-[#0b2545] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-blue-100">Académico</span>
                                 <span class="text-3xl font-extrabold text-[#0b2545]">{{ \App\Models\Docente::count() }}</span>
                             </div>
                             <h4 class="text-xl font-bold text-slate-900">Directorio de Docentes</h4>
                             <p class="text-sm text-slate-500 mt-2 leading-relaxed">
-                                Consulta el directorio completo, tipos de vinculación (tiempo completo, medio tiempo, hora cátedra) y datos de contacto de los profesores.
+                                Consulta el directorio completo, tipos de vinculación y datos de contacto de los profesores.
                             </p>
                         </div>
                         <div class="bg-slate-50 px-6 py-4 border-t border-gray-100 flex items-center justify-between">
@@ -104,6 +104,26 @@
                         <div class="bg-slate-50 px-6 py-4 border-t border-gray-100 flex items-center justify-between">
                             <a href="{{ route('periodos.index') }}" class="inline-flex items-center space-x-2 bg-[#0b2545] hover:bg-slate-800 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition">
                                 <span>Ver Periodos</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- MÓDULO: PROGRAMAS ACADÉMICOS -->
+                    <div class="interactive-module bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 flex flex-col justify-between transition transform hover:-translate-y-1 hover:shadow-2xl">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-emerald-50 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-emerald-100">Oferta</span>
+                                <span class="text-3xl font-extrabold text-[#0b2545]">{{ \App\Models\ProgramaAcademico::count() }}</span>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900">Programas Académicos</h4>
+                            <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                                Consulta los programas por facultad y sus respectivos planes de estudio asociados.
+                            </p>
+                        </div>
+                        <div class="bg-slate-50 px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+                            <a href="{{ route('programas.index') }}" class="inline-flex items-center space-x-2 bg-[#0b2545] hover:bg-slate-800 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition">
+                                <span>Ver Programas</span>
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
                         </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\PeriodoAcademicoController;
+use App\Http\Controllers\ProgramaAcademicoController;
 
 // Redirige la raíz al login en lugar de mostrar la vista "welcome" de Laravel
 Route::get('/', function () {
@@ -26,6 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/periodos', [PeriodoAcademicoController::class, 'index'])->name('periodos.index');
+    Route::get('/programas', [ProgramaAcademicoController::class, 'index'])->name('programas.index');
+    
     
     // Consulta general de docentes (Disponible para Admin y Usuario regular)
     Route::get('/docentes', [DocenteController::class, 'index'])->name('docentes.index');
@@ -39,6 +42,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/periodos/{periodo}/editar', [PeriodoAcademicoController::class, 'edit'])->name('periodos.edit');
     Route::put('/periodos/{periodo}', [PeriodoAcademicoController::class, 'update'])->name('periodos.update');
     Route::delete('/periodos/{periodo}', [PeriodoAcademicoController::class, 'destroy'])->name('periodos.destroy');
+    Route::get('/programas/crear', [ProgramaAcademicoController::class, 'create'])->name('programas.create');
+    Route::post('/programas', [ProgramaAcademicoController::class, 'store'])->name('programas.store');
+    Route::get('/programas/{programa}/editar', [ProgramaAcademicoController::class, 'edit'])->name('programas.edit');
+    Route::put('/programas/{programa}', [ProgramaAcademicoController::class, 'update'])->name('programas.update');
+    Route::delete('/programas/{programa}', [ProgramaAcademicoController::class, 'destroy'])->name('programas.destroy');
     
     // Gestión de usuarios
     Route::get('/users', [AdminController::class, 'indexUsers'])->name('users.index');
