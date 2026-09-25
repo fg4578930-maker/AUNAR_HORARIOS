@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Docente;
+use App\Models\Programa;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -19,16 +20,26 @@ class AdminController extends Controller
         $totalAdmins = User::where('role', 'admin')->count();
         $totalStandardUsers = User::where('role', 'user')->count();
         $totalDocentes = Docente::count(); // Conteo de docentes para la tarjeta
+        $totalProgramas = Programa::count(); // Conteo de programas académicos para la tarjeta
         $users = User::latest()->take(5)->get();
 
-        return view('admin.dashboard', compact('totalUsers', 'totalAdmins', 'totalStandardUsers', 'totalDocentes', 'users'));
+        return view('admin.dashboard', compact(
+            'totalUsers',
+            'totalAdmins',
+            'totalStandardUsers',
+            'totalDocentes',
+            'totalProgramas',
+            'users'
+        ));
     }
+
     /**
      * Muestra la lista completa de todos los usuarios registrados.
      */
     public function indexUsers()
     {
         $users = User::latest()->paginate(10);
+
         return view('admin.users-index', compact('users'));
     }
 
@@ -77,7 +88,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email,'.$user->id],
             'role' => ['required', 'in:admin,user'],
         ]);
 
@@ -111,4 +122,3 @@ class AdminController extends Controller
         return redirect()->route('admin.users.index')->with('success', '¡Usuario eliminado correctamente!');
     }
 }
-
