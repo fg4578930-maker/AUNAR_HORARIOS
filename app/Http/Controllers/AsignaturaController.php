@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asignatura;
+<<<<<<< HEAD
 use App\Models\Programa;
+=======
+>>>>>>> e19adb0302a3d9df8fa0db52c66ea567444aa52d
 use Illuminate\Http\Request;
 
 class AsignaturaController extends Controller
 {
+<<<<<<< HEAD
     /**
      * Muestra el listado de asignaturas con filtros opcionales (Programa, Plan de Estudios y Semestre).
      */
@@ -61,10 +65,38 @@ class AsignaturaController extends Controller
             'creditos' => 'required|integer|min:1',
             'tipo' => 'required|string|max:100',
             'estado' => 'required|in:Activo,Inactivo',
+=======
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+        
+        $asignaturas = Asignatura::when($search, function ($query, $search) {
+            return $query->where('nombre', 'like', "%{$search}%")
+                         ->orWhere('codigo', 'like', "%{$search}%");
+        })->orderBy('nombre')->get();
+
+        return view('asignaturas.index', compact('asignaturas', 'search'));
+    }
+
+    public function create()
+    {
+        return view('admin.asignaturas.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'codigo' => 'required|string|max:50|unique:asignaturas,codigo',
+            'nombre' => 'required|string|max:255',
+            'creditos' => 'required|integer|min:1|max:10',
+            'tipo' => 'required|string',
+            'estado' => 'required|string',
+>>>>>>> e19adb0302a3d9df8fa0db52c66ea567444aa52d
         ]);
 
         Asignatura::create($request->all());
 
+<<<<<<< HEAD
         return redirect()->route('asignaturas.index')->with('success', '¡Asignatura creada exitosamente!');
     }
 
@@ -100,10 +132,29 @@ class AsignaturaController extends Controller
             'creditos' => 'required|integer|min:1',
             'tipo' => 'required|string|max:100',
             'estado' => 'required|in:Activo,Inactivo',
+=======
+        return redirect()->route('asignaturas.index')->with('success', '¡Asignatura registrada exitosamente!');
+    }
+
+    public function edit(Asignatura $asignatura)
+    {
+        return view('admin.asignaturas.edit', compact('asignatura'));
+    }
+
+    public function update(Request $request, Asignatura $asignatura)
+    {
+        $request->validate([
+            'codigo' => 'required|string|max:50|unique:asignaturas,codigo,' . $asignatura->id,
+            'nombre' => 'required|string|max:255',
+            'creditos' => 'required|integer|min:1|max:10',
+            'tipo' => 'required|string',
+            'estado' => 'required|string',
+>>>>>>> e19adb0302a3d9df8fa0db52c66ea567444aa52d
         ]);
 
         $asignatura->update($request->all());
 
+<<<<<<< HEAD
         return redirect()->route('asignaturas.index')->with('success', '¡Asignatura actualizada correctamente!');
     }
 
@@ -133,3 +184,14 @@ class AsignaturaController extends Controller
         return response()->json(['error' => 'Programa no encontrado'], 404);
     }
 }
+=======
+        return redirect()->route('asignaturas.index')->with('success', '¡Asignatura actualizada exitosamente!');
+    }
+
+    public function destroy(Asignatura $asignatura)
+    {
+        $asignatura->delete();
+        return redirect()->route('asignaturas.index')->with('success', '¡Asignatura eliminada exitosamente!');
+    }
+}
+>>>>>>> e19adb0302a3d9df8fa0db52c66ea567444aa52d
